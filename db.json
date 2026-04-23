@@ -1,0 +1,28 @@
+{
+  "ferramentas": [
+    {
+      "id": "meu-ip",
+      "nome": "Meu IP",
+      "descricao": "Consulta de IP público e dados de geolocalização.",
+      "icone": "user"
+    },
+    {
+      "id": "ping",
+      "nome": "Teste de Ping",
+      "descricao": "Mede a latência e disponibilidade de um host via pacotes ICMP.",
+      "icone": "activity"
+    },
+    {
+      "id": "traceroute",
+      "nome": "Traceroute",
+      "descricao": "Mapeia o caminho e os saltos de rede até o destino.",
+      "icone": "route"
+    },
+    {
+      "id": "nslookup",
+      "nome": "NSLookup",
+      "descricao": "Consulte registros de servidores DNS para domínios.",
+      "icone": "database"
+    }
+  ]
+}
