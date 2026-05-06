@@ -1,33 +1,49 @@
-# 🌐 NetCenter - Network Diagnostic Hub
+# 🌐 NetCenter
 
-O **NetCenter** é uma aplicação web estática desenvolvida para atuar como um centralizador intuitivo de ferramentas de diagnóstico de rede. Inspirado na simplicidade dos motores de busca, o projeto permite que profissionais e estudantes de TI acessem utilitários essenciais de infraestrutura a partir de uma única interface moderna.
+**NetCenter** é uma aplicação web desenvolvida como projeto acadêmico para atuar como um hub centralizador de ferramentas de diagnóstico de redes. O objetivo principal do projeto é aplicar conceitos modernos de desenvolvimento frontend, como modularização, consumo de APIs e manipulação dinâmica do DOM.
 
 ---
 
-## 🚀 Funcionalidades
+## 🚀 Tecnologias Utilizadas
 
-* **Busca Unificada:** Campo central para inserção de alvos (Endereços IP ou Domínios).
-* **Painel de Ferramentas:** Acesso rápido em formato de cards para:
-  * 👤 **Meu IP:** Consulta de IP público e dados de geolocalização.
-  * ⚡ **Ping:** Teste de latência e disponibilidade via ICMP.
-  * 🛤️ **Traceroute:** Mapeamento de saltos (hops) da rota de pacotes.
-  * 🗄️ **NSLookup:** Consulta de registros de servidores DNS.
-* **Terminal Emulado:** Exibição de resultados de varredura simulando uma interface de linha de comando (CLI) real.
+O projeto foi construído utilizando as seguintes tecnologias:
 
-## 🛠️ Tecnologias Utilizadas
+* **HTML5 & CSS3:** Estruturação semântica e estilização.
+* **TailwindCSS (via CDN):** Framework utilitário para design responsivo e moderno.
+* **JavaScript (Vanilla ES6+):** Lógica da aplicação utilizando ECMAScript Modules (ESM).
+* **JSON Server:** Simulação de uma API RESTful (`db.json`) para consumo de dados.
+* **Lucide Icons:** Biblioteca de ícones SVG de código aberto.
 
-O projeto foi construído com foco em performance e design responsivo, utilizando páginas estáticas e bibliotecas via CDN:
+---
 
-* **HTML5:** Estrutura semântica das páginas.
-* **TailwindCSS:** Framework CSS utilitário para estilização rápida e criação do *Dark Mode* (`slate-900`/`slate-950`).
-* **Lucide Icons:** Biblioteca de ícones vetoriais modernos.
-* **GitHub Copilot / IA:** Utilizado para auxiliar na estruturação e definição dos requisitos do sistema (PRD).
+## 🎯 Requisitos Atendidos (Rubrica de Avaliação)
+
+Este projeto foi estruturado para atender aos seguintes critérios acadêmicos:
+
+- [x] **Estruturação Visual:** Interface construída de forma clara, responsiva e agradável, simulando um painel de diagnóstico real.
+- [x] **Estruturação de Dados:** Uso de um arquivo `db.json` servido via `json-server` para fornecer os dados das ferramentas disponíveis.
+- [x] **Consumo de API (Fetch):** Implementação de requisições assíncronas (`fetch` com `try/catch`) para buscar os dados do servidor local.
+- [x] **Manipulação Dinâmica do DOM:** Os cards das ferramentas na página inicial são gerados 100% via JavaScript (`createElement`, `appendChild`), sem HTML fixo para os dados.
+- [x] **Uso de ESM (ECMAScript Modules):** Arquitetura separada em módulos lógicos, utilizando `import` e `export` para garantir a separação de responsabilidades (ex: `api.js` para rede, `main.js` para interface).
+- [x] **Tratamento de Eventos:** Uso de `addEventListener` para capturar cliques nos cards e botões, capturando parâmetros e redirecionando as URLs dinamicamente.
+
+---
 
 ## 📂 Estrutura do Projeto
 
-```text
-/
-├── index.html        # Landing page e central de buscas
-├── resultado.html    # Interface do terminal emulado mostrando os testes
-├── PRD.md            # Product Requirements Document (Requisitos do Sistema)
-└── README.md         # Documentação principal do repositório
+* `db.json`: Banco de dados simulado contendo as informações das ferramentas.
+* `api.js`: Módulo (ESM) responsável exclusivamente por fazer a requisição HTTP (Fetch API) ao servidor.
+* `main.js`: Módulo principal que consome os dados de `api.js`, cria os elementos dinamicamente na tela e gerencia os eventos de clique.
+* `index.html`: Página inicial com o motor de busca e a grade de ferramentas gerada pelo JavaScript.
+* `tools.html`: Página de resultados que captura os parâmetros da URL (Query Strings) para exibir o alvo e a ferramenta selecionada de forma dinâmica.
+
+---
+
+## ⚙️ Como Executar o Projeto (Ambiente Codespaces / VS Code)
+
+Para testar a aplicação localmente ou via GitHub Codespaces, siga os passos abaixo:
+
+1. **Inicie o servidor de dados (API):**
+   Abra o terminal na pasta raiz do projeto e execute o comando:
+   ```bash
+   npx json-server --watch db.json --port 3000

@@ -1,40 +1,45 @@
-# Product Requirements Document (PRD) - NetCenter
+📄 Product Requirements Document (PRD) - NetCenter
+1. Visão Geral do Produto
+O NetCenter é uma aplicação web de interface única (SPA adaptada) que atua como um hub centralizador de ferramentas para diagnóstico de redes. O produto visa facilitar a execução de comandos comuns de infraestrutura (como Ping, Traceroute, Meu IP e NSLookup) através de uma interface gráfica amigável, moderna e responsiva, substituindo a necessidade imediata do uso de terminais de linha de comando (CLI) para consultas rápidas.
 
-## 1. Visão Geral do Produto
-O **NetCenter** é uma aplicação web desenvolvida para atuar como um hub centralizador de ferramentas de diagnóstico de redes. O objetivo principal é fornecer uma interface limpa, direta e amigável (estilo motor de busca) para que profissionais de TI, estudantes e administradores de rede possam acessar utilitários essenciais a partir de um único local.
+2. Objetivos do Projeto
+Objetivo Funcional: Prover uma interface onde o usuário possa inserir um "alvo" (IP ou Domínio) e simular a execução de ferramentas de rede.
 
-## 2. Público-Alvo
-* Estudantes da disciplina de Redes de Computadores.
-* Administradores de Redes e Infraestrutura.
-* Desenvolvedores e profissionais de TI que necessitam de diagnósticos rápidos de conectividade e DNS.
+Objetivo Acadêmico: Demonstrar domínio em tecnologias fundamentais de Front-End, especificamente: Modularização (ESM), requisições HTTP (Fetch API), manipulação avançada da Árvore de Elementos (DOM) e componentização de dados através de uma API Mockada.
 
-## 3. Escopo do Projeto
-O escopo inicial desta entrega contempla a **interface do usuário (Frontend)** através de páginas estáticas, garantindo uma navegação responsiva e uma experiência de usuário (UX) focada em produtividade (Dark Mode).
+3. Requisitos Funcionais (RF)
+Os Requisitos Funcionais descrevem o que o sistema deve fazer.
 
-### Ferramentas Integradas (Visão da Interface)
-1. **Meu IP:** Exibição de dados de IP público e geolocalização.
-2. **Teste de Ping:** Disparo de pacotes ICMP para teste de latência.
-3. **Traceroute:** Mapeamento de rotas e saltos (hops) de rede.
-4. **NSLookup:** Consulta de registros em servidores DNS.
+RF01 - Listagem de Ferramentas: O sistema deve buscar a lista de ferramentas disponíveis no servidor (via API) e exibi-las na página inicial em formato de grade (cards).
 
-## 4. Requisitos Funcionais (RF)
-* **RF01 - Barra de Pesquisa Central:** O sistema deve possuir um input central onde o usuário possa inserir o alvo (Endereço IP ou Domínio).
-* **RF02 - Cards de Ferramentas:** A página inicial deve apresentar as ferramentas disponíveis em formato de *cards* interativos.
-* **RF03 - Navegação para Resultados:** Ao submeter o alvo ou clicar em um card, o usuário deve ser direcionado para uma tela de console/resultados da respectiva ferramenta.
+RF02 - Captura de Alvo: A página inicial deve possuir um campo de busca que permita ao usuário digitar um IP ou Domínio válido (ex: google.com).
 
-## 5. Requisitos Não Funcionais (RNF)
-* **RNF01 - Responsividade:** A aplicação deve se adaptar perfeitamente a dispositivos móveis, tablets e desktops.
-* **RNF02 - Framework CSS:** O layout deve ser construído inteiramente utilizando **TailwindCSS** (via CDN para páginas estáticas).
-* **RNF03 - Iconografia:** O sistema deve utilizar a biblioteca **Lucide Icons** para manter a padronização visual.
-* **RNF04 - Tema Visual:** A interface deve seguir um padrão *Dark Mode* (tons de `slate-900` e `slate-950`) para reduzir a fadiga visual e alinhar-se a ambientes de desenvolvimento/NOC.
+RF03 - Navegação Parametrizada: Ao clicar no botão principal de "Analisar" ou em um card específico de ferramenta, o sistema deve redirecionar o usuário para a página de resultados (tools.html), passando os dados de escolha via parâmetros na URL (Query Strings).
 
-## 6. Pilha Tecnológica (Tech Stack)
-* **Linguagem de Marcação:** HTML5
-* **Estilização:** TailwindCSS
-* **Ícones:** Lucide Icons (via CDN `unpkg`)
-* **Hospedagem (Planejada):** GitHub Pages ou ambiente local (Live Server).
+RF04 - Simulação de Execução: A página de resultados deve ler os parâmetros da URL e exibir visualmente (emulando um terminal) qual ferramenta está sendo executada contra qual alvo específico.
 
-## 7. Estrutura de Arquivos
-* `PRD.md` - Documento de requisitos do sistema.
-* `index.html` - Página principal (Landing Page/Busca).
-* `resultado.html` - Página estática simulando o retorno dos comandos de rede (Próximo passo de desenvolvimento).
+4. Requisitos Não Funcionais (RNF)
+Os Requisitos Não Funcionais descrevem como o sistema deve fazer (restrições técnicas exigidas na rubrica de avaliação).
+
+RNF01 - Arquitetura de Dados: Os dados das ferramentas devem estar estruturados no formato JSON e servidos por um backend simulado utilizando a biblioteca json-server (rodando na porta 3000).
+
+RNF02 - Comunicação Assíncrona: A busca dos dados deve ser feita obrigatoriamente utilizando a Fetch API nativa do JavaScript, com tratamento de erros (blocos try/catch).
+
+RNF03 - Manipulação Dinâmica do DOM: A renderização dos cards na interface não pode ser escrita em HTML fixo (hardcoded). O JavaScript deve ser responsável por criar os elementos (document.createElement) e injetá-los na tela.
+
+RNF04 - Modularização (ESM): A lógica de negócios deve ser obrigatoriamente separada. Deve existir um arquivo dedicado à comunicação de rede (api.js) e um arquivo para controle de interface (main.js), interligados através de import e export.
+
+RNF05 - Estilização: A interface deve ser responsiva e estilizada utilizando o framework TailwindCSS (via CDN).
+
+5. Arquitetura e Fluxo de Dados
+A aplicação segue um fluxo de consumo de API padrão Front-End:
+
+O json-server expõe o arquivo db.json como um endpoint REST em http://localhost:3000/ferramentas.
+
+O arquivo index.html carrega o módulo main.js.
+
+O main.js invoca a função assíncrona alocada no api.js.
+
+O api.js realiza o Fetch, formata o retorno para JSON e devolve os dados em formato de array de objetos.
+
+O main.js itera sobre o array, constrói o HTML via DOM e anexa ouvintes de eventos (Event Listeners) em cada card gerado.
