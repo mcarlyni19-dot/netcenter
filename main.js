@@ -1,6 +1,6 @@
 // main.js
 
-import { buscarFerramentas } from './api.js';
+import { buscarFerramentas } from './api/index.js';
 
 async function iniciarApp() {
     const grid = document.getElementById('grid-ferramentas');
