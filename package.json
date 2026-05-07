@@ -1,0 +1,22 @@
+{
+  "name": "netcenter",
+  "version": "1.0.0",
+  "description": "Hub centralizador de ferramentas de diagnóstico de redes - Projeto Acadêmico",
+  "main": "index.js",
+  "scripts": {
+    "dev": "json-server --watch data/db.json --port 3000",
+    "serve": "npx serve ."
+  },
+  "keywords": [
+    "network",
+    "tools",
+    "ping",
+    "traceroute",
+    "nslookup"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "json-server": "^0.17.3"
+  }
+}
