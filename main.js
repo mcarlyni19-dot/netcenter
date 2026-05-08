@@ -37,7 +37,7 @@ async function iniciarApp() {
         lucide.createIcons();
 
     } catch (erro) {
-        grid.innerHTML = `<p class="text-red-500 text-xs col-span-full font-mono">Erro: Verifique se o npx json-server está rodando na porta 3000 e se está como 'Public'.</p>`;
+        grid.innerHTML = `<p class="text-red-500 text-xs col-span-full font-mono">Erro: ${erro.message}</p>`;
     }
 
     // Tratamento de Evento: Clique no botão principal

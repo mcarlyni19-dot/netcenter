@@ -1,5 +1,5 @@
 const LOCAL_BASE_URL = "http://localhost:3000";
-const STATIC_DB_PATH = "./db.json";
+const STATIC_DB_PATH = new URL('../db.json', import.meta.url).href;
 const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
 export async function buscarFerramentas() {
