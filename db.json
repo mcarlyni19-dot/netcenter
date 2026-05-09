@@ -25,12 +25,6 @@
       "icone": "database"
     },
     {
-      "id": "speedtest",
-      "nome": "Speed Test",
-      "descricao": "Teste de velocidade de conexão à internet.",
-      "icone": "zap"
-    }, 
-    {
       "id": "dns-lookup",
       "nome": "DNS Lookup",
       "descricao": "Consulta registros DNS para domínios específicos.",
@@ -43,12 +37,42 @@
       "icone": "map-pin"
     },
     {
-      "id": "subnet-calculator",
-      "nome": "Subnet Calculator",
-      "descricao": "Calculadora de sub-redes para planejamento de rede.",
-      "icone": "calculator"
+      "id": "port-scanner",
+      "nome": "Port Scanner",
+      "descricao": "Escaneia portas abertas em um host para segurança de rede.",
+      "icone": "shield"
+    },
+    {
+      "id": "ssl-checker",
+      "nome": "SSL Checker",
+      "descricao": "Verifica a validade e configuração de certificados SSL.",
+      "icone": "lock"
+    },
+    {
+      "id": "whois",
+      "nome": "WHOIS",
+      "descricao": "Consulta informações de registro de domínios e IPs.",
+      "icone": "info"
+    }, 
+    {
+      "id": "http-header-checker",
+      "nome": "HTTP Header Checker",
+      "descricao": "Analisa os cabeçalhos HTTP de um site para diagnóstico.",
+      "icone": "server"
+    },
+    {
+      "id": "ip-reputation-checker",
+      "nome": "IP Reputation Checker",
+      "descricao": "Avalia a reputação de um endereço IP com base em listas de bloqueio e relatórios de segurança.",
+      "icone": "shield-x"
+    },
+ 
+    {
+      "id": "ip-blacklist-checker",
+      "nome": "IP Blacklist Checker",
+      "descricao": "Verifica se um endereço IP está listado em bancos de dados de bloqueio de spam ou segurança.",
+      "icone": "shield-off"
     }
 
   ]
 }
-
