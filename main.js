@@ -1,4 +1,3 @@
-// main.js
 
 import { buscarFerramentas } from './api/index.js';
 
@@ -8,11 +7,11 @@ async function iniciarApp() {
     const btnBusca = document.getElementById('btn-busca');
 
     try {
-        // 1. Busca os dados usando a função importada
+        //Busca os dados usando a função importada
         const dados = await buscarFerramentas();
         grid.innerHTML = ""; // Limpa a área
 
-        // 2. Cria os cards dinamicamente
+        // Cria os cards dinamicamente
         dados.forEach(item => {
             const card = document.createElement('div'); // Manipulação manual do DOM
             card.className = "bg-slate-900 p-6 rounded-xl border border-slate-800 hover:border-blue-500 transition-all group cursor-pointer text-left";
@@ -23,17 +22,17 @@ async function iniciarApp() {
                 <p class="text-[10px] text-slate-500 uppercase font-semibold">${item.id}</p>
             `;
 
-            // Tratamento de Evento: Clique no card
+            //Tratamento de Evento: Clique no card
             card.addEventListener('click', () => {
                 const alvo = inputBusca.value.trim() || 'meu-ip';
                 window.location.href = `tools.html?ferramenta=${item.id}&alvo=${alvo}`;
             });
 
-            // Adiciona na tela
+            //Adiciona na tela
             grid.appendChild(card);
         });
 
-        // Renderiza os ícones gerados
+        //Renderiza os ícones gerados
         lucide.createIcons();
 
     } catch (erro) {
