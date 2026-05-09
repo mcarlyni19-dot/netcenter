@@ -23,7 +23,56 @@
       "nome": "NSLookup",
       "descricao": "Consulte registros de servidores DNS para domínios.",
       "icone": "database"
+    },
+    {
+      "id": "whois",
+      "nome": "Whois",
+      "descricao": "Recupera informações de registro de domínios e IPs.",
+      "icone": "info"
+    },
+    {
+      "id": "speedtest",
+      "nome": "Speed Test",
+      "descricao": "Teste de velocidade de conexão à internet.",
+      "icone": "zap"
+    }, 
+    {
+      "id": "port-scan",
+      "nome": "Port Scan",
+      "descricao": "Verifica portas abertas em um host para segurança e diagnóstico.",
+      "icone": "shield"
+    },
+    {
+      "id": "dns-lookup",
+      "nome": "DNS Lookup",
+      "descricao": "Consulta registros DNS para domínios específicos.",
+      "icone": "globe"
+    },
+    {
+      "id": "ssl-check",
+      "nome": "SSL Check",
+      "descricao": "Verifica a validade e configuração de certificados SSL/TLS.",
+      "icone": "lock"
+    },
+    {
+      "id": "ip-geolocation",
+      "nome": "IP Geolocation",
+      "descricao": "Determina a localização geográfica de um endereço IP.",
+      "icone": "map-pin"
+    },
+    {
+      "id": "subnet-calculator",
+      "nome": "Subnet Calculator",
+      "descricao": "Calculadora de sub-redes para planejamento de rede.",
+      "icone": "calculator"
+    },  
+    {
+      "id": "asn-lookup",
+      "nome": "ASN Lookup",
+      "descricao": "Consulta informações sobre sistemas autônomos (AS) e seus proprietários.",
+      "icone": "server"
     }
+    
   ]
 }
 
