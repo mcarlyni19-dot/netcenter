@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Ferramenta {
+  id        String  @id
+  nome      String
+  descricao String
+  icone     String
+}
+
+model User {
+  id       String   @id @default(uuid())
+  name     String
+  email    String   @unique
+  password String
+  reports  Report[]
+}
+
+model Report {
+  id         String @id @default(uuid())
+  user_id    String
+  title      String
+  ferramenta String
+  alvo       String
+  content    String
+  pdf_path   String
+  created_at String
+
+  user User @relation(fields: [user_id], references: [id])
+}

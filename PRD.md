@@ -17,11 +17,12 @@ RF02 - Captura de Alvo: A página inicial deve possuir um campo de busca que per
 RF03 - Navegação Parametrizada: Ao clicar no botão principal de "Analisar" ou em um card específico de ferramenta, o sistema deve redirecionar o usuário para a página de resultados (tools.html), passando os dados de escolha via parâmetros na URL (Query Strings).
 
 RF04 - Simulação de Execução: A página de resultados deve ler os parâmetros da URL e exibir visualmente (emulando um terminal) qual ferramenta está sendo simulada contra qual alvo específico.
+RF05 - Relatórios por usuário: Usuários cadastrados devem poder gerar um relatório em PDF da análise de rede e armazená-lo em sua conta para consulta posterior.
 
 4. Requisitos Não Funcionais (RNF)
 Os Requisitos Não Funcionais descrevem como o sistema deve fazer (restrições técnicas exigidas na rubrica de avaliação).
 
-RNF01 - Arquitetura de Dados: Os dados das ferramentas devem estar estruturados no formato JSON e servidos por um backend simulado utilizando a biblioteca json-server (rodando na porta 3000).
+RNF01 - Arquitetura de Dados: Os dados das ferramentas devem ser persistidos em SQLite e expostos por um backend Express.
 
 RNF02 - Comunicação Assíncrona: A busca dos dados deve ser feita obrigatoriamente utilizando a Fetch API nativa do JavaScript, com tratamento de erros (blocos try/catch).
 
@@ -34,7 +35,7 @@ RNF05 - Estilização: A interface deve ser responsiva e estilizada utilizando o
 5. Arquitetura e Fluxo de Dados
 A aplicação segue um fluxo de consumo de API padrão Front-End:
 
-O json-server expõe o arquivo db.json como um endpoint REST em http://localhost:3000/ferramentas.
+O servidor Express expõe os dados em SQLite pelo endpoint REST em http://localhost:3000/ferramentas.
 
 O arquivo index.html carrega o módulo main.js.
 

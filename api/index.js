@@ -1,18 +1,21 @@
-const LOCAL_BASE_URL = "http://localhost:3000";
-const STATIC_DB_PATH = new URL('../db.json', import.meta.url).href;
-const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const LOCAL_BASE_URL = 'http://localhost:3000';
+const API_BASE_URL = (() => {
+  if (window.location.protocol === 'file:') return LOCAL_BASE_URL;
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    return window.location.origin;
+  }
+  return LOCAL_BASE_URL;
+})();
 
 export async function buscarFerramentas() {
     try {
-        if (isLocal) {
-            const response = await fetch(`${LOCAL_BASE_URL}/ferramentas`);
-            return await response.json();
+        const response = await fetch(`${API_BASE_URL}/api/ferramentas`);
+        if (!response.ok) {
+            throw new Error('Falha ao buscar ferramentas.');
         }
-
-        const response = await fetch(STATIC_DB_PATH);
-        const json = await response.json();
-        return json.ferramentas;
+        return await response.json();
     } catch (erro) {
-        console.error("Erro ao ler db.json:", erro);
+        console.error('Erro ao buscar ferramentas:', erro);
+        throw erro;
     }
 }
