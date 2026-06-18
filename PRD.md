@@ -1,46 +1,53 @@
-📄 Product Requirements Document (PRD) - NetCenter
-1. Visão Geral do Produto
-O NetCenter é uma aplicação web multi-página que atua como um hub centralizador de ferramentas para diagnóstico de redes. O produto visa facilitar a simulação de comandos comuns de infraestrutura (como Ping, Traceroute, Meu IP e NSLookup) através de uma interface gráfica amigável, moderna e responsiva, substituindo a necessidade imediata do uso de terminais de linha de comando (CLI) para consultas rápidas.
+# 📄 Product Requirements Document (PRD) - NetCenter
 
-2. Objetivos do Projeto
-Objetivo Funcional: Prover uma interface onde o usuário possa inserir um "alvo" (IP ou Domínio) e simular a execução de ferramentas de rede, exibindo resultados visuais emulando um terminal.
+## 1. Visão Geral do Produto
+O **NetCenter** é uma aplicação web full-stack que atua como um hub centralizador de ferramentas para diagnóstico de redes. O produto visa facilitar a execução de comandos comuns de infraestrutura (como Ping, Traceroute, Meu IP, NSLookup, DNS Lookup, IP Geolocation, Port Scanner, SSL Checker, WHOIS, HTTP Header Checker, IP Reputation Checker e IP Blacklist Checker) através de uma interface gráfica amigável, moderna e responsiva, substituindo a necessidade imediata do uso de terminais de linha de comando (CLI) para consultas rápidas.
 
-Objetivo Acadêmico: Demonstrar domínio em tecnologias fundamentais de Front-End, especificamente: Modularização (ESM), requisições HTTP (Fetch API), manipulação avançada da Árvore de Elementos (DOM) e componentização de dados através de uma API Mockada.
+---
 
-3. Requisitos Funcionais (RF)
-Os Requisitos Funcionais descrevem o que o sistema deve fazer.
+## 2. Objetivos do Projeto
 
-RF01 - Listagem de Ferramentas: O sistema deve buscar a lista de ferramentas disponíveis no servidor (via API) e exibi-las na página inicial em formato de grade (cards).
+### Objetivo Funcional:
+Prover uma interface segura onde o usuário possa se cadastrar, fazer login e executar simulações reais de ferramentas de rede contra alvos específicos (IP ou Domínio), obtendo resultados visuais detalhados emulando um terminal e gerando relatórios de auditoria em PDF.
 
-RF02 - Captura de Alvo: A página inicial deve possuir um campo de busca que permita ao usuário digitar um IP ou Domínio válido (ex: google.com).
+### Objetivo Acadêmico:
+Demonstrar domínio em tecnologias fundamentais de desenvolvimento web full-stack:
+- **Front-End:** Componentização, Modularização (ESM), requisições assíncronas (Fetch API), tratamento e exibição de erros de rede/API, e manipulação dinâmica do DOM.
+- **Back-End:** Arquitetura limpa MVC no Express, validação/sanitização de inputs, tratamento global de erros, e integração segura com o sistema operacional.
+- **Persistência & Acesso:** Modelagem de banco de dados relacional com Prisma ORM e SQLite, controle de evolução estrutural via Migrations versionadas, e controle de acesso baseado em autenticação JWT com criptografia de senhas (bcryptjs).
 
-RF03 - Navegação Parametrizada: Ao clicar no botão principal de "Analisar" ou em um card específico de ferramenta, o sistema deve redirecionar o usuário para a página de resultados (tools.html), passando os dados de escolha via parâmetros na URL (Query Strings).
+---
 
-RF04 - Simulação de Execução: A página de resultados deve ler os parâmetros da URL e exibir visualmente (emulando um terminal) qual ferramenta está sendo simulada contra qual alvo específico.
-RF05 - Relatórios por usuário: Usuários cadastrados devem poder gerar um relatório em PDF da análise de rede e armazená-lo em sua conta para consulta posterior.
+## 3. Requisitos Funcionais (RF)
 
-4. Requisitos Não Funcionais (RNF)
-Os Requisitos Não Funcionais descrevem como o sistema deve fazer (restrições técnicas exigidas na rubrica de avaliação).
+* **RF01 - Cadastro e Autenticação de Usuários:** O sistema deve permitir o cadastro de novos usuários (com hashing seguro da senha) e autenticação subsequente gerando tokens JWT válidos.
+* **RF02 - Grade de Ferramentas:** A página inicial deve carregar dinamicamente as ferramentas disponíveis no banco de dados através de uma chamada à API e exibi-las em formato de cards interativos.
+* **RF03 - Filtro e Busca de Alvo:** O usuário deve poder digitar um IP ou domínio de destino na tela principal antes de acionar os diagnósticos.
+* **RF04 - Redirecionamento Parametrizado:** Ao clicar em um card ou no botão de busca principal, o sistema deve direcionar o usuário para o painel de execução (`tools.html`) passando a ferramenta e o alvo selecionados por meio de Query Strings.
+* **RF05 - Proteção de Acesso (Auth Guard):** A tela do terminal de diagnósticos (`tools.html`), a listagem de relatórios e a execução em si das ferramentas de rede no back-end devem exigir autenticação. Usuários não logados devem ser redirecionados para a tela de login.
+* **RF06 - Execução em Tempo Real:** O servidor Express deve receber a requisição de diagnóstico, validar os dados e executar as ferramentas no sistema operacional subjacente (ou API de geolocalização correspondente) retornando os dados em tempo real para exibição no terminal simulado.
+* **RF07 - Geração de Relatórios PDF:** O usuário autenticado deve poder gerar um arquivo PDF estruturado contendo o resumo e os resultados dos diagnósticos realizados no alvo.
+* **RF08 - Histórico de Relatórios:** O usuário deve ter acesso a um painel (`reports.html`) listando todos os relatórios gerados por ele, permitindo o download direto do arquivo PDF correspondente.
 
-RNF01 - Arquitetura de Dados: Os dados das ferramentas devem ser persistidos em SQLite e expostos por um backend Express.
+---
 
-RNF02 - Comunicação Assíncrona: A busca dos dados deve ser feita obrigatoriamente utilizando a Fetch API nativa do JavaScript, com tratamento de erros (blocos try/catch).
+## 4. Requisitos Não Funcionais (RNF)
 
-RNF03 - Manipulação Dinâmica do DOM: A renderização dos cards na interface não pode ser escrita em HTML fixo (hardcoded). O JavaScript deve ser responsável por criar os elementos (document.createElement) e injetá-los na tela.
+* **RNF01 - Estruturação de Dados e Banco:** Uso do banco relacional SQLite mediado pelo Prisma ORM. A criação e evolução de tabelas deve ser estritamente gerenciada por meio de Migrations geradas e versionadas no Git.
+* **RNF02 - Automação do Banco de Dados:** O servidor Express deve rodar automaticamente o deploy das migrations pendentes no momento da inicialização do servidor.
+* **RNF03 - Comunicação assíncrona:** A integração client-server deve ser feita utilizando a Fetch API nativa em módulos Javascript independentes com tratamento de exceções via blocos `try/catch`.
+* **RNF04 - Manipulação Dinâmica do DOM:** Cards de ferramentas e linhas de output de terminal devem ser construídos dinamicamente no DOM via manipulação Javascript, sem templates HTML estáticos.
+* **RNF05 - Segurança de Senhas:** Senhas no banco de dados devem ser criptografadas de forma segura com salt rounds via **bcryptjs**.
+* **RNF06 - Segurança de Configurações:** Variáveis sensíveis como segredos de token, portas e conexões de banco de dados devem ser gerenciadas via variáveis de ambiente (`.env`) e omitidas do controle de versão.
+* **RNF07 - Modularização (ESM):** Uso obrigatório do sistema de módulos do ES6 (`import` / `export`) tanto no front-end quanto no back-end.
+* **RNF08 - Responsividade e Estilo:** A interface deve ser estilizada com TailwindCSS e CSS nativo, oferecendo visual responsivo adaptado para dispositivos móveis e desktops.
+* **RNF09 - Portabilidade e Integração com SO:** Os comandos de rede disparados no back-end devem reconhecer a plataforma em execução (Windows vs Linux) e ajustar os parâmetros de comandos nativos para evitar erros de execução.
 
-RNF04 - Modularização (ESM): A lógica de negócios deve ser obrigatoriamente separada. Deve existir um arquivo dedicado à comunicação de rede (api/index.js) e um arquivo para controle de interface (main.js), interligados através de import e export.
+---
 
-RNF05 - Estilização: A interface deve ser responsiva e estilizada utilizando o framework TailwindCSS (via CDN).
+## 5. Fluxo de Dados e Segurança
 
-5. Arquitetura e Fluxo de Dados
-A aplicação segue um fluxo de consumo de API padrão Front-End:
-
-O servidor Express expõe os dados em SQLite pelo endpoint REST em http://localhost:3000/ferramentas.
-
-O arquivo index.html carrega o módulo main.js.
-
-O main.js invoca a função assíncrona alocada no api/index.js.
-
-O api/index.js realiza o Fetch, formata o retorno para JSON e devolve os dados em formato de array de objetos.
-
-O main.js itera sobre o array, constrói o HTML via DOM e anexa ouvintes de eventos (Event Listeners) em cada card gerado.
+1. **Autenticação:** O cliente envia as credenciais de login. O servidor valida a senha com o hash do banco e devolve um token JWT assinado pela chave secreta do `.env`.
+2. **Autorização:** O cliente guarda o token em `localStorage`. Ao acessar o painel de ferramentas, o front-end verifica a presença do token. Ao disparar uma ferramenta, anexa o cabeçalho `Authorization: Bearer <token>`.
+3. **Validação & Execução:** O Express recebe a requisição, o `authMiddleware` valida a assinatura do token, e o `tools.controller` sanitiza a string de alvo contra ataques de injeção antes de passar a string de forma segura ao subprocesso do sistema operacional.
+4. **Resolução de Erros:** Qualquer exceção é encaminhada pelo Express ao handler em `error.middleware.js`, que responde com JSON semântico para que o front-end informe adequadamente o usuário na tela.

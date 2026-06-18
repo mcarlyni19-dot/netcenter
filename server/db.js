@@ -19,41 +19,19 @@ const ferramentasSeed = [
   { id: 'ip-blacklist-checker', nome: 'IP Blacklist Checker', descricao: 'Verifica se um endereço IP está listado em bancos de dados de bloqueio de spam ou segurança.', icone: 'shield-off' },
 ];
 
+/**
+ * Inicializa recursos necessários para a aplicação:
+ * - Garante que o diretório de relatórios PDF existe
+ * - Popula a tabela de ferramentas com os dados padrão (upsert)
+ *
+ * A estrutura do banco de dados é gerenciada pelas migrations do Prisma
+ * (prisma/migrations/) e aplicada via `prisma migrate deploy` antes do start.
+ */
 export async function initDatabase() {
+  // Garante que o diretório de relatórios existe no filesystem
   await fsPromises.mkdir(REPORTS_DIR, { recursive: true });
 
-  await prisma.$executeRaw`
-    CREATE TABLE IF NOT EXISTS ferramentas (
-      id TEXT PRIMARY KEY,
-      nome TEXT NOT NULL,
-      descricao TEXT NOT NULL,
-      icone TEXT NOT NULL
-    )
-  `;
-
-  await prisma.$executeRaw`
-    CREATE TABLE IF NOT EXISTS users (
-      id TEXT PRIMARY KEY,
-      name TEXT NOT NULL,
-      email TEXT NOT NULL UNIQUE,
-      password TEXT NOT NULL
-    )
-  `;
-
-  await prisma.$executeRaw`
-    CREATE TABLE IF NOT EXISTS reports (
-      id TEXT PRIMARY KEY,
-      user_id TEXT NOT NULL,
-      title TEXT NOT NULL,
-      ferramenta TEXT NOT NULL,
-      alvo TEXT NOT NULL,
-      content TEXT NOT NULL,
-      pdf_path TEXT NOT NULL,
-      created_at TEXT NOT NULL,
-      FOREIGN KEY (user_id) REFERENCES users(id)
-    )
-  `;
-
+  // Popula / atualiza as ferramentas padrão no banco
   for (const tool of ferramentasSeed) {
     await prisma.ferramenta.upsert({
       where: { id: tool.id },

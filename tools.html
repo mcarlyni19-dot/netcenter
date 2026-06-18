@@ -93,6 +93,12 @@
 
         const token = obterToken();
 
+        // Redireciona para login se não estiver autenticado
+        if (!token) {
+            const redirect = encodeURIComponent(window.location.href);
+            window.location.href = `login.html?redirect=${redirect}`;
+        }
+
         const params = new URLSearchParams(window.location.search);
         const alvo = params.get('alvo') || 'meu-ip';
         const ferramenta = params.get('ferramenta') || 'ping';
@@ -242,9 +248,16 @@
                 summaryStatus.textContent = 'concluído';
                 reportStatus.textContent = 'Execução concluída com sucesso.';
             } catch (error) {
-                appendOutput([`Erro: ${error.message || 'Falha ao executar a ferramenta.'}`]);
+                const msg = error.message || 'Falha ao executar a ferramenta.';
+                // Se o token expirou ou é inválido, redireciona para login
+                if (msg.includes('Token') || msg.includes('401') || msg.includes('inválido') || msg.includes('expirado')) {
+                    appendOutput([`Sessão expirada. Redirecionando para o login...`]);
+                    setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+                } else {
+                    appendOutput([`Erro: ${msg}`]);
+                }
                 summaryStatus.textContent = 'erro';
-                reportStatus.textContent = error.message;
+                reportStatus.textContent = msg;
             } finally {
                 btnRunTool.disabled = false;
             }
