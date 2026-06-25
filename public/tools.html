@@ -40,6 +40,9 @@
                         <p class="text-sm text-slate-500 mt-1 flex items-center gap-2">
                             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Execução em tempo real
                         </p>
+                        <p class="text-xs text-slate-400 mt-2">
+                            Você pode testar todas as ferramentas sem login. Apenas a geração de relatório fica disponível para usuários autenticados.
+                        </p>
                         <div class="mt-4 grid gap-3 sm:grid-cols-[1.4fr_auto] items-center">
                             <div class="flex flex-col gap-2">
                                 <label class="text-slate-400 text-sm font-medium">Endereço / Domínio</label>
@@ -92,12 +95,6 @@
         import { obterToken, gerarRelatorio, executarFerramenta } from './api/auth.js';
 
         const token = obterToken();
-
-        // Redireciona para login se não estiver autenticado
-        if (!token) {
-            const redirect = encodeURIComponent(window.location.href);
-            window.location.href = `login.html?redirect=${redirect}`;
-        }
 
         const params = new URLSearchParams(window.location.search);
         const alvo = params.get('alvo') || 'meu-ip';
@@ -249,13 +246,7 @@
                 reportStatus.textContent = 'Execução concluída com sucesso.';
             } catch (error) {
                 const msg = error.message || 'Falha ao executar a ferramenta.';
-                // Se o token expirou ou é inválido, redireciona para login
-                if (msg.includes('Token') || msg.includes('401') || msg.includes('inválido') || msg.includes('expirado')) {
-                    appendOutput([`Sessão expirada. Redirecionando para o login...`]);
-                    setTimeout(() => { window.location.href = 'login.html'; }, 1500);
-                } else {
-                    appendOutput([`Erro: ${msg}`]);
-                }
+                appendOutput([`Erro: ${msg}`]);
                 summaryStatus.textContent = 'erro';
                 reportStatus.textContent = msg;
             } finally {
@@ -266,6 +257,11 @@
         btnRunTool.addEventListener('click', runTool);
 
         btnGenerateReport.addEventListener('click', async () => {
+            if (!token) {
+                reportStatus.textContent = 'Faça login para gerar relatórios.';
+                return;
+            }
+
             if (ferramenta !== 'meu-ip' && !inputAlvoTool.value.trim()) {
                 alert('Digite um endereço ou domínio antes de gerar o relatório.');
                 return;

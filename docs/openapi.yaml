@@ -1,0 +1,70 @@
+openapi: 3.0.3
+info:
+  title: NetCenter API
+  version: 1.0.0
+  description: API para autenticação, execução de ferramentas de rede e geração de relatórios.
+paths:
+  /api/auth/register:
+    post:
+      summary: Cadastrar um novo usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, password]
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '201':
+          description: Usuário criado com sucesso
+  /api/auth/login:
+    post:
+      summary: Autenticar usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Login realizado com sucesso
+  /api/run-tool:
+    post:
+      summary: Executar uma ferramenta de rede
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ferramenta]
+              properties:
+                ferramenta:
+                  type: string
+                alvo:
+                  type: string
+      responses:
+        '200':
+          description: Execução realizada com sucesso
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
