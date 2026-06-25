@@ -1,4 +1,7 @@
+import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
+
+dotenv.config();
 
 const fallbackSecret = 'dev-secret-change-me';
 const JWT_SECRET = process.env.JWT_SECRET || fallbackSecret;

@@ -65,3 +65,10 @@ test('POST /api/run-tool retorna uma resposta válida para ping mesmo sem comand
   assert.ok(response.body.command);
   assert.ok(response.body.stdout || response.body.stderr || response.body.details);
 });
+
+test('GET /docs serve a página de documentação da API', async () => {
+  const response = await request(app).get('/docs');
+
+  assert.equal(response.status, 200);
+  assert.match(response.text, /NetCenter API Docs|Swagger/i);
+});
